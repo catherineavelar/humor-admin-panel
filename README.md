@@ -1,1 +1,1 @@
-# -humor-admin-panel
+# humor-admin-panel
