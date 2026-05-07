@@ -35,8 +35,11 @@ export async function middleware(request: NextRequest) {
             .eq('email', user.email)
             .single()
 
-        if (!profile?.is_superadmin && request.nextUrl.pathname !== '/login') {
-            return NextResponse.redirect(new URL('/login', request.url))
+        // Block if no profile found OR if not superadmin
+        if (!profile || profile.is_superadmin !== true) {
+            if (request.nextUrl.pathname !== '/login') {
+                return NextResponse.redirect(new URL('/login', request.url))
+            }
         }
     }
 
