@@ -35,10 +35,9 @@ export async function middleware(request: NextRequest) {
             .eq('email', user.email)
             .single()
 
-        // Block if no profile found OR if not superadmin
         if (!profile || profile.is_superadmin !== true) {
-            if (request.nextUrl.pathname !== '/login') {
-                return NextResponse.redirect(new URL('/login', request.url))
+            if (request.nextUrl.pathname !== '/login' && request.nextUrl.pathname !== '/unauthorized') {
+                return NextResponse.redirect(new URL('/unauthorized', request.url))
             }
         }
     }
@@ -47,5 +46,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/((?!_next/static|_next/image|favicon.ico|auth/callback).*)'],
+    matcher: ['/((?!_next/static|_next/image|favicon.ico|auth/callback|unauthorized).*)'],
 }
