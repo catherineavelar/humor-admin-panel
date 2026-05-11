@@ -1,9 +1,10 @@
 'use client'
 
+import { Suspense } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useSearchParams } from 'next/navigation'
 
-export default function LoginPage() {
+function LoginContent() {
   const searchParams = useSearchParams()
   const error = searchParams.get('error')
 
@@ -27,13 +28,11 @@ export default function LoginPage() {
           <p className="text-gray-400 text-sm text-center">
             Sign in with your Columbia Google account to access the admin panel.
           </p>
-
           {error === 'unauthorized' && (
               <div className="w-full bg-red-900/40 border border-red-500 text-red-300 text-sm rounded-lg px-4 py-3 text-center">
                 That account doesn't have superadmin access. Please try a different Google account.
               </div>
           )}
-
           <button
               onClick={handleGoogleLogin}
               className="w-auto bg-white text-gray-900 font-semibold py-3 px-6 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-100 transition"
@@ -51,5 +50,13 @@ export default function LoginPage() {
           </p>
         </div>
       </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+      <Suspense>
+        <LoginContent />
+      </Suspense>
   )
 }
